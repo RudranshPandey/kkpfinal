@@ -36,8 +36,8 @@
                             </a>
                         </td>
                         <td>
-                            <!--<button class="btn btn-primary" onclick="goToVolunteer('{{ victim.id }}', this)">Go to Volunteer</button> -->
-                            <a class="btn btn-primary" href="{% url 'volunteers:index' %}">Go to Volunteer</a>
+                            <!--<a class="btn btn-primary" href="{% url 'volunteers:index' %}">Go to Volunteer</a>-->
+                            <a class="btn btn-primary" href="{% url 'volunteers:index' %}?victim_id={{ victim.id }}">Go to Volunteer</a>
                         </td>
                     </tr>
                     {% endfor %}
