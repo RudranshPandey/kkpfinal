@@ -34,4 +34,5 @@ urlpatterns = [
     #path('victims/', include('victims.urls')),
     path('hospital/',include('hospital.urls')),
     path('timeline/', include('timeline.urls')),
+    path('tempstorage/', include('tempstorage.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

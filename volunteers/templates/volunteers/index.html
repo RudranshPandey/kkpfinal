@@ -1,5 +1,9 @@
 {% extends "layout/base.html" %}
 {% block content %}
+<form id="csrf-form">
+    {% csrf_token %}
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+</form>
 <br>
 <div class="container d-flex justify-content-center">
 	<div>
@@ -110,7 +114,11 @@ function sendToVolunteer(victimId, authToken) {
     setTimeout(() => {
         $(button).text('Send to Volunteer').removeClass('btn-success').addClass('btn-primary');
     }, 3500);
+    const csrfTokenInput = document.querySelector('input[name="csrfmiddlewaretoken"]');
+    const csrfToken = csrfTokenInput.value;
 
+// Log the CSRF token value to verify
+    console.log('CSRF Token:', csrfToken);
     // Make API call with the victim ID and authentication token
     fetch(`/victims/get_victim_details/${victimId}/`, {
         headers: {
@@ -120,7 +128,35 @@ function sendToVolunteer(victimId, authToken) {
     .then(response => response.json())
     .then(data => {
         console.log('API Response:', data);
-        // Handle the API response data
+        // Make a POST request to a server endpoint with the retrieved data
+        const newData = {
+            age: data.age,
+            description: data.description,
+            first_name: data.first_name,
+            gender: data.gender,
+            id: data.id,
+            last_name: data.last_name,
+            memo_no: data.memo_no,
+            ngo_assigned: data.ngo_assigned,
+            pickup_date: data.pickup_date,
+            pickup_location: data.pickup_location
+        };
+        console.log('Data to send:', newData);
+        fetch('/tempstorage/store-data/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken,
+            },
+            body: JSON.stringify(newData),
+        })
+        .then(response => response.json())
+        .then(result => {
+            console.log('POST request response:', result);
+        })
+        .catch(error => {
+            console.error('Error sending data to server:', error);
+        });
     })
     .catch(error => {
         console.error('Error:', error);
