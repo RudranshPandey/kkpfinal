@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'timeline',
     'members',
     'rest_framework.authtoken',
+    'tempstorage',
 ]
 
 MIDDLEWARE = [
