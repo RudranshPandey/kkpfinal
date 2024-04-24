@@ -6,7 +6,6 @@ import json
 from django.http import JsonResponse
 
 def store_data(request):
-    if request.method == 'POST':
         # Assuming the data is sent as JSON
         try:
             data = json.loads(request.body)
@@ -19,9 +18,7 @@ def store_data(request):
         except json.JSONDecodeError as e:
             # Return a JSON response with an error message if JSON decoding fails
             return JsonResponse({'error': 'Invalid JSON format.'}, status=400)
-    else:
-        # Return a JSON response with an error message for unsupported methods
-        return JsonResponse({'error': 'Method not allowed.'}, status=405)
+
 
 def get_data(request):
     if request.method == 'GET':

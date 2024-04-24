@@ -117,8 +117,6 @@ function sendToVolunteer(victimId, authToken) {
     const csrfTokenInput = document.querySelector('input[name="csrfmiddlewaretoken"]');
     const csrfToken = csrfTokenInput.value;
 
-// Log the CSRF token value to verify
-    console.log('CSRF Token:', csrfToken);
     // Make API call with the victim ID and authentication token
     fetch(`/victims/get_victim_details/${victimId}/`, {
         headers: {
@@ -141,7 +139,6 @@ function sendToVolunteer(victimId, authToken) {
             pickup_date: data.pickup_date,
             pickup_location: data.pickup_location
         };
-        console.log('Data to send:', newData);
         fetch('/tempstorage/store-data/', {
             method: 'POST',
             headers: {
